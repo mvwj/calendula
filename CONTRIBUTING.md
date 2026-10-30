@@ -38,6 +38,18 @@ keys or private device screenshots. Keep local diagnostics under ignored
 `output/`. Review staged files and run `python scripts/check-publication.py`.
 Use a GitHub noreply commit email if you do not want to publish your address.
 
+Enable the local pre-push guard before contributing:
+
+```sh
+git config user.email YOUR_ID+YOUR_LOGIN@users.noreply.github.com
+git config core.hooksPath .githooks
+```
+
+Find your exact noreply address in GitHub's email settings. The hook checks file
+types, known credential patterns and commit-email hygiene before upload, and
+runs Gitleaks too when installed. CI repeats checks after pushes. Neither check
+replaces manual review of arbitrary text/images.
+
 Never uninstall an existing personal app, clear its storage or replace a failed
 encrypted vault to make a test pass. Verify signing compatibility before updates.
 Test deletions in isolated stores or with clearly labelled synthetic events.

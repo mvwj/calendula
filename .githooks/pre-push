@@ -1,0 +1,8 @@
+#!/bin/sh
+# Opt in with: git config core.hooksPath .githooks
+# Block before upload; CI checks after a push cannot retract published metadata.
+set -eu
+python scripts/check-publication.py --history
+if command -v gitleaks >/dev/null 2>&1; then
+    gitleaks git . --log-opts=--all --redact=100 --no-banner --log-level warn
+fi
