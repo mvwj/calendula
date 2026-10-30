@@ -1,0 +1,11 @@
+* text=auto eol=lf
+*.bat text eol=crlf
+*.png binary
+*.ico binary
+*.pdf binary
+*.gz binary
+# Preserve upstream license/source bytes; pinned dependency hashes use LF.
+third_party/tor/*.LICENSE whitespace=-blank-at-eol
+third_party/tor/LICENSE whitespace=-blank-at-eol
+apps/calendula/assets/licenses/tor.txt whitespace=-blank-at-eol
+apps/calendula/vendor/** whitespace=-blank-at-eol

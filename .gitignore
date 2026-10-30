@@ -1,0 +1,46 @@
+node_modules/
+.dart_tool/
+build/
+*.jks
+*.keystore
+__pycache__/
+*.py[cod]
+output/
+*.log
+.env
+.env.*
+!.env.example
+
+# Checksum-pinned Tor preparation scripts restore downloaded binaries.
+apps/calendula/android/app/src/main/jniLibs/
+apps/calendula/windows/tor-bundle/
+third_party/tor/windows-x64/
+
+# Private runtime data, credentials and developer configuration.
+*.vault
+*.calsync
+*.calsetup
+*.sqlite
+*.sqlite3
+*.db
+credentials.json
+client_secret*.json
+google-services.json
+.vscode/
+apps/calendula/android/.kotlin/
+
+# Local account/signing configuration and diagnostic exports.
+key.properties
+*.p12
+*.pfx
+*.pem
+*.key
+*oauth*.local.json
+*credentials*.local.json
+*.eml
+*.mbox
+*.ics
+*.calendula
+*.dump
+screenshots/
+private/

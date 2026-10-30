@@ -1,0 +1,19 @@
+name: Feature request
+description: Suggest an improvement to the native calendar.
+title: "[Feature] "
+labels: [enhancement]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: What would you like to do?
+      description: Describe the user problem with a fictional example.
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Suggested behavior
+      description: Explain the desired flow and any privacy or offline requirements.
+    validations:
+      required: true

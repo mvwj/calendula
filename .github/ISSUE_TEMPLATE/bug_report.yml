@@ -1,0 +1,27 @@
+name: Bug report
+description: Report a reproducible problem using synthetic data.
+title: "[Bug] "
+labels: [bug]
+body:
+  - type: markdown
+    attributes:
+      value: "Please use fictional plans. Do not attach personal mail, calendars, locations, pairing files, credentials or private device screenshots. Report security problems privately via SECURITY.md."
+  - type: input
+    id: environment
+    attributes:
+      label: App version and platform
+      placeholder: "0.2.7 / Android 16 or Windows 11"
+    validations:
+      required: true
+  - type: textarea
+    id: reproduce
+    attributes:
+      label: Steps to reproduce
+      description: Include the expected result and what happened, using a minimal synthetic example.
+    validations:
+      required: true
+  - type: textarea
+    id: diagnostics
+    attributes:
+      label: Sanitized diagnostics
+      description: Optional. Remove account addresses, tokens, exact locations and device identifiers first.

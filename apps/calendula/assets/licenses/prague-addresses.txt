@@ -1,0 +1,9 @@
+Prague offline address points: Czech Office for Surveying, Mapping and Cadastre
+(CUZK), RUIAN municipality 554782, snapshot 2026-09-30.
+Source: https://vdp.cuzk.gov.cz/vymenny_format/csv/20260930_OB_554782_ADR.csv.zip
+License: Creative Commons Attribution 4.0 International
+https://creativecommons.org/licenses/by/4.0/
+Provider terms: https://cuzk.gov.cz/Uvod/Produkty-a-sluzby/Otevrena-data/Otevrena-data-zakladni-informace.aspx
+Changes: reduced address fields; coordinates converted from S-JTSK (EPSG:5514)
+to WGS84 (EPSG:4326) using pyproj/PROJ; deterministic compressed JSON.
+These are public address points, not verified pedestrian paths or venue entrances.

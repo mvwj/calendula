@@ -1,0 +1,8 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" android:id="@+id/widget_root" android:layout_width="match_parent" android:layout_height="match_parent" android:orientation="vertical" android:background="@drawable/widget_background" android:padding="22dp">
+    <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="✿  CALENDULA" android:textSize="11sp" android:textColor="#EDAA65" android:letterSpacing="0.15" />
+    <TextView android:id="@+id/widget_heading" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Your day" android:textSize="20sp" android:textColor="#FFFFFF" android:layout_marginTop="12dp" />
+    <TextView android:id="@+id/widget_leave" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Open to refresh" android:textSize="16sp" android:textColor="#FFFFFF" android:layout_marginTop="12dp" />
+    <TextView android:id="@+id/widget_now" android:layout_width="match_parent" android:layout_height="wrap_content" android:textSize="12sp" android:textColor="#EDAA65" android:layout_marginTop="6dp" />
+    <TextView android:id="@+id/widget_events" android:layout_width="match_parent" android:layout_height="0dp" android:layout_weight="1" android:textSize="13sp" android:textColor="#DEE8DE" android:layout_marginTop="16dp" android:maxLines="9" android:ellipsize="end" />
+    <TextView android:id="@+id/widget_note" android:layout_width="match_parent" android:layout_height="wrap_content" android:textSize="10sp" android:textColor="#B6C8BB" android:layout_marginTop="12dp" />
+</LinearLayout>

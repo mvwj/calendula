@@ -1,0 +1,85 @@
+import { mkdir } from 'node:fs/promises';
+import path from 'node:path';
+import { pathToFileURL } from 'node:url';
+import assert from 'node:assert/strict';
+
+const library = process.env.CALENDULA_PLAYWRIGHT;
+if (!library) throw new Error('Set CALENDULA_PLAYWRIGHT to a Playwright package entry point.');
+const { chromium } = await import(pathToFileURL(library));
+const browser = await chromium.launch({ headless:true, channel:process.env.CALENDULA_BROWSER || 'msedge' });
+try {
+  const context = await browser.newContext({ viewport:{ width:1440,height:1100 } });
+  const page = await context.newPage(); const errors=[], external=[];
+  await context.route('**/*', route => route.request().url().startsWith('http://127.0.0.1:4173/') ? route.continue() : route.abort());
+  page.on('pageerror',e => errors.push(e.message));
+  page.on('request',r => { if (!r.url().startsWith('http://127.0.0.1:4173/')) external.push(r.url()); });
+  await page.goto('http://127.0.0.1:4173/');
+  await page.locator('.event-row').first().waitFor();
+  assert.equal(await page.locator('.event-row').count(),3);
+  await mkdir('output',{ recursive:true });
+  await page.screenshot({path:'output/desktop.png',fullPage:true});
+  await page.locator('#add-event').click();
+  const form=page.locator('#event-form');
+  await form.locator('[name="title"]').fill('UI verification <img src=x onerror=alert(1)>');
+  await form.locator('[name="start"]').fill('2026-10-03T15:00');
+  await form.locator('[name="end"]').fill('2026-10-03T16:00');
+  await form.locator('[name="address"]').fill('Example 12, Prague');
+  await form.locator('[name="travelMinutes"]').fill('30');
+  await form.getByRole('button',{name:'Save event'}).click();
+  await page.locator('#event-dialog').waitFor({state:'hidden'});
+  assert.equal(await page.locator('.event-row').count(),4);
+  assert.equal(await page.locator('#schedule img').count(),0);
+  await page.reload();
+  await page.locator('.event-row').first().waitFor();
+  assert.equal(await page.locator('.event-row').count(),4);
+  await page.getByRole('button',{name:'UI verification',exact:false}).click();
+  await page.locator('#details-panel').getByRole('button',{name:'Edit event'}).click();
+  await form.locator('[name="title"]').fill('Edited verification');
+  await form.getByRole('button',{name:'Save event'}).click();
+  await page.locator('#event-dialog').waitFor({state:'hidden'});
+  assert.equal(await page.getByRole('button',{name:'Edited verification',exact:false}).count(),1);
+  await page.locator('#details-panel').getByRole('button',{name:'Delete',exact:true}).click();
+  assert.equal(await page.locator('.event-row').count(),3);
+  await page.locator('#toast').getByRole('button',{name:'Undo'}).click();
+  assert.equal(await page.locator('.event-row').count(),4);
+  await page.locator('[data-page="inbox"]').click();
+  await page.locator('#file-input').setInputFiles(path.resolve('samples/timetable.csv'));
+  await page.locator('.candidate-card').first().waitFor();
+  assert.equal(await page.locator('.candidate-card').count(),2);
+  await page.locator('.candidate-card').first().getByRole('button',{name:'Add to calendar'}).click();
+  assert.equal(await page.locator('.candidate-card').count(),1);
+  await page.locator('#file-input').setInputFiles(path.resolve('samples/timetable.csv'));
+  await page.waitForFunction(() => document.querySelectorAll('.candidate-card').length === 3);
+  assert.ok(await page.locator('#candidates').getByText('CSV · ALREADY IN CALENDAR').count());
+  await page.locator('[data-page="calendar"]').click();
+  await page.getByRole('button',{name:'Week',exact:true}).click();
+  assert.equal(await page.locator('.week-column').count(),7);
+  await page.getByRole('button',{name:'Month',exact:true}).click();
+  assert.equal(await page.locator('.month-day').count(),42);
+  await page.getByRole('button',{name:'Day',exact:true}).click();
+  await page.locator('#widget-preview').click();
+  await page.locator('#widget-dialog').waitFor({state:'visible'});
+  assert.equal(await page.locator('#widget-content .widget-event').count(),4);
+  await page.locator('#widget-dialog .close-dialog').click();
+  await page.locator('[data-page="settings"]').click();
+  await page.locator('#theme').selectOption('dark');
+  assert.equal(await page.locator('html').getAttribute('data-theme'),'dark');
+  await page.locator('[data-page="calendar"]').click();
+  await page.screenshot({path:'output/dark.png',fullPage:true});
+  for (const width of [390,320]) {
+    await page.setViewportSize({width,height:950});
+    assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth),`Horizontal overflow at ${width}px`);
+    for (const view of ['week','month','day']) {
+      await page.locator(`[data-view="${view}"]`).click();
+      assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth),`${view} overflow at ${width}px`);
+    }
+    await page.screenshot({path:`output/mobile-${width}.png`,fullPage:true});
+    await page.locator('#add-event').click();
+    assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth),`Form overflow at ${width}px`);
+    await page.locator('#event-dialog .close-dialog').first().click();
+  }
+  assert.deepEqual(errors,[]);
+  const injected=external.filter(url => new URL(url).hostname === 'me.kis.v2.scr.kaspersky-labs.com');
+  assert.deepEqual(external.filter(url => !injected.includes(url)),[]);
+  console.log(`UI checks passed: CRUD, persistence, safe rendering, import review/deduplication, views, widget preview, themes, 320/390px layout. No browser errors or external application requests. External requests are blocked by the test runner; ${injected.length} host antivirus injections were observed.`);
+} finally { await browser.close(); }

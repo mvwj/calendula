@@ -1,0 +1,30 @@
+{
+  "libevent": {
+    "url": "https://raw.githubusercontent.com/libevent/libevent/release-2.1.13-stable/LICENSE",
+    "sha256": "ff02effc9b331edcdac387d198691bfa3e575e7d244ad10cb826aa51ef085670"
+  },
+  "openssl": {
+    "url": "https://raw.githubusercontent.com/openssl/openssl/openssl-3.5.7/LICENSE.txt",
+    "sha256": "7d5450cb2d142651b8afa315b5f238efc805dad827d91ba367d8516bc9d49e7a"
+  },
+  "zlib": {
+    "url": "https://raw.githubusercontent.com/madler/zlib/v1.3.2/LICENSE",
+    "sha256": "e32ff4e00d9d94930537635291da39e7e612703334bf6fde8c7f1686fe8a45a2"
+  },
+  "zstd": {
+    "url": "https://raw.githubusercontent.com/facebook/zstd/v1.5.7/LICENSE",
+    "sha256": "7055266497633c9025b777c78eb7235af13922117480ed5c674677adc381c9d8"
+  },
+  "zstd-copying": {
+    "url": "https://raw.githubusercontent.com/facebook/zstd/v1.5.7/COPYING",
+    "sha256": "f9c375a1be4a41f7b70301dd83c91cb89e41567478859b77eef375a52d782505"
+  },
+  "tor-service-java": {
+    "url": "https://raw.githubusercontent.com/guardianproject/tor-android/0.4.9.13/tor-android-binary/src/main/java/org/torproject/jni/TorService.java",
+    "sha256": "dfdc9c5f7b0f92eeae1d1de4c40ded895a1aeb9ef15564cf9a9e84c8e33786c7"
+  },
+  "tor-core": {
+    "url": "https://raw.githubusercontent.com/guardianproject/tor/8aa9ce2e4e3332ef10f5b7f7e0562c60affe2ece/LICENSE",
+    "sha256": "5dc29ea302cc75db6db4a7c88d7b5d4638b4e0f5f1d2e6d21ce71f707470b766"
+  }
+}

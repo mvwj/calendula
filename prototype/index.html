@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light dark">
+  <title>Calendula — a calmer kind of day</title>
+  <link rel="stylesheet" href="/prototype/style.css">
+</head>
+<body>
+  <div class="shell">
+    <aside class="sidebar">
+      <a class="brand" href="/" aria-label="Calendula, home"><span class="flower" aria-hidden="true">✳</span><span>calendula<span class="brand-caption">your private space</span></span></a>
+      <button class="primary new-event" id="add-event"><span aria-hidden="true">＋</span> New event</button>
+      <nav aria-label="Main navigation">
+        <button class="nav-item selected" data-page="calendar"><span aria-hidden="true">▦</span> Calendar</button>
+        <button class="nav-item" data-page="inbox"><span aria-hidden="true">↙</span> Review inbox <span class="count" id="inbox-count">0</span></button>
+        <button class="nav-item" data-page="sources"><span aria-hidden="true">⇄</span> Sources</button>
+        <button class="nav-item" data-page="settings"><span aria-hidden="true">☷</span> Settings</button>
+      </nav>
+      <section class="mini-calendar" aria-label="Choose a date">
+        <div class="mini-heading"><strong id="mini-title"></strong><div><button id="mini-prev" aria-label="Previous month">‹</button><button id="mini-next" aria-label="Next month">›</button></div></div>
+        <div class="week-labels" aria-hidden="true"><span>M</span><span>T</span><span>W</span><span>T</span><span>F</span><span>S</span><span>S</span></div>
+        <div class="mini-days" id="mini-days"></div>
+      </section>
+      <section class="calendars" aria-label="Categories"><p class="eyebrow">MY CALENDARS</p><span><i class="dot study"></i> Study</span><span><i class="dot work"></i> Work</span><span><i class="dot culture"></i> Culture</span><span><i class="dot personal"></i> Personal</span></section>
+      <div class="sidebar-bottom"><span class="privacy-dot"></span> No calendar account <small>Prototype · saved in this browser</small></div>
+    </aside>
+    <main>
+      <header class="topbar"><span id="breadcrumb">My schedule</span><div><button class="quiet" id="refresh">↻ Refresh</button><button class="quiet" id="widget-preview">▣ Widget</button></div></header>
+      <section class="page" id="calendar-page">
+        <div class="page-heading"><div><p class="eyebrow" id="date-caption"></p><h1 id="day-title">A calmer kind of day.</h1><p class="subtitle" id="day-subtitle"></p></div><div class="heading-actions"><button class="quiet" id="import-button">↓ Import</button><button class="quiet" id="export-button">↑ Export</button></div></div>
+        <div class="calendar-toolbar"><div class="date-navigation"><button id="prev-date" aria-label="Previous period">‹</button><button class="quiet" id="today">Today</button><button id="next-date" aria-label="Next period">›</button></div><div class="segmented" aria-label="Calendar view"><button data-view="day" aria-pressed="true">Day</button><button data-view="week" aria-pressed="false">Week</button><button data-view="month" aria-pressed="false">Month</button></div></div>
+        <div id="schedule" aria-label="Calendar events"></div>
+        <p class="calendar-footnote">Sample events are fictional. Travel times are manual estimates.</p>
+      </section>
+      <section class="page" id="inbox-page" hidden>
+        <p class="eyebrow">A QUICK CHECK FIRST</p><h1>Review inbox</h1><p class="subtitle">Events from files and text. You choose what belongs in your calendar.</p>
+        <div class="import-actions"><button class="primary" id="choose-file">Import a file</button><button class="quiet" id="text-import">Paste text</button><button class="quiet" id="demo-mail">Sample invitation</button></div>
+        <div id="import-warnings" role="status"></div><div id="candidates"></div>
+      </section>
+      <section class="page" id="sources-page" hidden>
+        <p class="eyebrow">ONLY WHEN YOU NEED IT</p><h1>Your sources</h1><p class="subtitle">Mail will refresh on opening and when you ask.</p>
+        <article class="source-card"><span class="source-symbol">＠</span><div><h3>Email</h3><p>Gmail and Outlook are planned. Messages will be read and processed on your devices.</p><small>Next development stage · read only</small></div></article>
+        <article class="source-card"><span class="source-symbol">↓</span><div><h3>Timetables & tickets</h3><p>Import individual events from ICS, CSV, TSV and JSON, or paste text.</p><button class="quiet" id="source-import">Choose file</button></div></article>
+        <article class="source-card"><span class="source-symbol">⇄</span><div><h3>Phone ↔ computer</h3><p>Planned: direct Wi-Fi sync, QR pairing and optional encrypted file transfer.</p><small>Device sync is not implemented in this prototype</small></div></article>
+      </section>
+      <section class="page" id="settings-page" hidden>
+        <p class="eyebrow">YOUR OWN RHYTHM</p><h1>Settings</h1>
+        <div class="settings-grid"><label>Appearance<select id="theme"><option value="light">Light</option><option value="dark">Dark</option><option value="system">System</option></select></label><label>Time zone<select id="timezone"><option>Europe/Prague</option><option>Europe/Berlin</option><option>Europe/Kyiv</option><option>Europe/Moscow</option><option>Europe/London</option><option>Asia/Almaty</option><option>UTC</option></select></label></div>
+        <article class="source-card"><span class="source-symbol">◌</span><div><h3>Local storage</h3><p>This prototype saves unencrypted data in your browser. Use sample data for testing. The native app will use encrypted storage and protected keys.</p><button class="quiet" id="json-backup">Save JSON backup</button></div></article>
+      </section>
+    </main>
+    <aside class="right-panel">
+      <div class="right-heading"><p class="eyebrow">YOUR DAY, AT A GLANCE</p><span id="right-date"></span></div>
+      <div id="journey-panel"></div>
+      <div class="details-panel" id="details-panel"></div>
+      <section class="gentle-note"><span>✳</span><h3>Make room for life.</h3><p>Your plans, journeys and moments in between. Together, at your pace.</p></section>
+    </aside>
+  </div>
+  <input type="file" id="file-input" accept=".ics,.csv,.tsv,.json" hidden>
+  <dialog id="event-dialog">
+    <form id="event-form"><div class="dialog-heading"><h2 id="form-title">New event</h2><button type="button" class="quiet close-dialog" aria-label="Close">✕</button></div>
+      <input name="id" type="hidden"><input name="candidateId" type="hidden"><input name="source" type="hidden"><input name="sourceUid" type="hidden">
+      <label>Title<input name="title" required maxlength="300" placeholder="For example, history of architecture"></label>
+      <div class="form-row"><label>Starts<input name="start" type="datetime-local" required></label><label>Ends<input name="end" type="datetime-local" required></label></div>
+      <label>Calendar<select name="category"><option value="personal">Personal</option><option value="study">Study</option><option value="culture">Culture</option><option value="work">Work</option></select></label>
+      <label>Address<input name="address" maxlength="1000" placeholder="Street, building number, city"></label>
+      <label>Venue<input name="venue" maxlength="300" placeholder="University, cinema, office…"></label>
+      <div class="form-row"><label>Room / hall<input name="room" maxlength="100"></label><label>Floor<input name="floor" maxlength="100"></label></div>
+      <fieldset><legend>When to leave · manual estimate</legend><div class="form-row three"><label>Travel, min<input name="travelMinutes" type="number" min="0" max="1440" placeholder="Not set"></label><label>Buffer, min<input name="bufferMinutes" type="number" min="0" max="1440" value="10"></label><label>Get ready, min<input name="prepMinutes" type="number" min="0" max="1440" value="0"></label></div></fieldset>
+      <label>Notes<textarea name="notes" rows="2" maxlength="10000"></textarea></label><p class="form-zone" id="form-zone"></p><p id="form-error" role="alert"></p>
+      <div class="dialog-footer"><button type="button" class="quiet close-dialog">Cancel</button><button class="primary" type="submit">Save event</button></div>
+    </form>
+  </dialog>
+  <dialog id="text-dialog"><div class="dialog-heading"><h2>Event from text</h2><button class="quiet close-dialog" aria-label="Close">✕</button></div><p class="subtitle">The prototype recognizes an exact date, a time range and labelled fields.</p><label>Invitation or timetable<textarea id="import-text" rows="9" placeholder="Subject: Film screening&#10;Date: 2026-10-05&#10;Time: 18:30–20:30&#10;Address: Example street 8, Prague&#10;Venue: Cinema&#10;Room: Hall 2"></textarea></label><div class="dialog-footer"><button class="primary" id="parse-text">Extract event</button></div></dialog>
+  <dialog id="widget-dialog"><div class="dialog-heading"><h2>Widget preview</h2><button class="quiet close-dialog" aria-label="Close">✕</button></div><p class="subtitle">Home screen concept. A native widget is planned for a later stage.</p><div class="widget" id="widget-content"></div></dialog>
+  <div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
+  <script type="module" src="/prototype/app.mjs"></script>
+</body>
+</html>
