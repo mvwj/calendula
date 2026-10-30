@@ -3,6 +3,7 @@
 </p>
 
 <p align="center">
+  <a href="https://github.com/mvwj/calendula/actions/workflows/publication-check.yml"><img alt="Publication safety checks" src="https://github.com/mvwj/calendula/actions/workflows/publication-check.yml/badge.svg"></a>
   <a href="#getting-started"><img alt="Status: development preview" src="https://img.shields.io/badge/status-development_preview-EDAA65?style=flat-square&amp;labelColor=284B3D"></a>
   <img alt="Android and Windows" src="https://img.shields.io/badge/platforms-Android_%C2%B7_Windows-284B3D?style=flat-square">
   <a href="LICENSE"><img alt="License: MIT" src="https://img.shields.io/badge/license-MIT-284B3D?style=flat-square"></a>

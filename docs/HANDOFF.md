@@ -3,6 +3,8 @@
 Updated 30 October 2026. Public source: **0.2.7+12**, native Flutter Android and
 Windows. This public repository begins with a sanitized source snapshot; private
 development history, personal diagnostics and build archives are not included.
+Do not merge or push historical private refs into this public repository. Keep
+GitHub noreply author metadata and enable the documented pre-push guard.
 
 Read [ROADMAP](ROADMAP.md), [VERIFICATION](VERIFICATION.md),
 [IMPLEMENTATION_0.2.0](IMPLEMENTATION_0.2.0.md), [SETUP](SETUP.md) and root

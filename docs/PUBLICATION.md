@@ -25,6 +25,17 @@ privately. They are not part of the public Git graph, releases or issue attachme
 
 ## Continuing safeguards
 
+The public GitHub Actions run passes the guard, its synthetic tests, full-history
+Gitleaks scan and all core logic checks. A fresh anonymous public clone passes
+the guard and Gitleaks again; only clean noreply-authored publication commits are
+reachable. GitHub secret scanning reports zero alerts. Secret push protection
+and private vulnerability reporting are enabled; main requires the safety check
+and rejects force pushes/deletion. The original history repository remains private.
+
+Never merge or mirror old private refs into this public Git graph. The local
+development checkout now uses the clean public remote/history, with its pre-push
+guard enabled. Earlier history is preserved separately rather than deleted.
+
 The publication workflow runs the forbidden-file guard, synthetic guard tests,
 core logic tests and checksum-pinned Gitleaks over reachable Git history with
 redacted output. Checkout is pinned and workflow permissions are read-only.
